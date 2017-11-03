@@ -13,7 +13,7 @@ if [ "$2" != "" ]; then
 fi
 #cmake
 mkdir build && cd build
-cmake .. -DPLUGIN_UPDATER_GPU=ON -DJVM_BINDINGS:BOOL=ON
+cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON 
 make -j4
 cd ..
 cd python-package/
