@@ -1,0 +1,42 @@
+FROM nvcr.io/nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
+
+# Install all basic requirements
+RUN \
+    apt-get update -q -y && \
+    apt-get -y dist-upgrade && \
+    apt-get -y --no-install-recommends  install \
+        build-essential \
+        wget \
+        unzip \
+        gfortran \
+        # BLAS
+        libatlas-base-dev \
+        # Python 2
+        python-setuptools \
+        python-pip \
+        python-dev \
+    	# Google test
+		libgtest-dev \
+    && \
+    # CMake
+    wget http://www.cmake.org/files/v3.5/cmake-3.5.2.tar.gz && \
+    tar -xvzf cmake-3.5.2.tar.gz && \
+    cd cmake-3.5.2/ && ./configure && make && make install && cd ../ && \
+    # Clean up
+    rm -rf cmake-3.5.2/ && rm -rf cmake-3.5.2.tar.gz && \
+    apt-get clean && \
+    rm -rf /var/cache/apt/*
+
+# Install Python packages
+RUN pip install numpy nose scipy scikit-learn wheel
+
+# Install XGBoost
+RUN \
+	git clone https://github.com/RAMitchell/xgboost.git --recursive && \
+	cd xgboost && \
+	mkdir build && cd build && \
+	cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DGPU_COMPUTE_VER=70 &&\
+	make -j4 && \
+	cd .. && \
+	cd python-package && \
+	python setup.py install 
