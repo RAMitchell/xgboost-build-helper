@@ -29,14 +29,3 @@ RUN \
 
 # Install Python packages
 RUN pip install numpy nose scipy scikit-learn wheel
-
-# Install XGBoost
-RUN \
-	git clone https://github.com/RAMitchell/xgboost.git --recursive && \
-	cd xgboost && \
-	mkdir build && cd build && \
-	cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DGPU_COMPUTE_VER=70 &&\
-	make -j4 && \
-	cd .. && \
-	cd python-package && \
-	python setup.py install 

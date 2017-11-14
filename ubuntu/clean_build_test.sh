@@ -13,7 +13,7 @@ if [ "$2" != "" ]; then
 fi
 #cmake
 mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DGOOGLE_TEST=ON 
+cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DGOOGLE_TEST=ON -DUSE_AVX=ON 
 make -j4
 cd ..
 cd python-package/
