@@ -11,9 +11,10 @@ cd xgboost
 if [ "$2" != "" ]; then
         git checkout $2
 fi
+sh ../build_gtest.sh
 #cmake
 mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DGOOGLE_TEST=ON -DUSE_AVX=ON 
+cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON
 make -j4
 cd ..
 cd python-package/
