@@ -1,8 +1,13 @@
 set -e
 rm -rf xgboost
 #Repo
+branch="master"
+if [ "$2" != "" ]; then
+	branch="$2"
+fi
+
 if [ "$1" != "" ]; then
-        git clone $1 --recursive
+        git clone -b $branch $1 --recursive
 else
         git clone https://github.com/RAMitchell/xgboost.git --recursive
 fi
