@@ -19,7 +19,7 @@ fi
 sh ../build_gtest.sh
 #cmake
 mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON -DGTEST_ROOT=../gtest/
+cmake .. -DUSE_CUDA=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON -DGTEST_ROOT=$PWD/../gtest
 make -j4
 cd ..
 cd python-package/
