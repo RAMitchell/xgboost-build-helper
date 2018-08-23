@@ -1,6 +1,6 @@
 set -e
 cd xgboost/build
-cmake .. -DUSE_CUDA=ON -DUSE_AVX=ON -DCMAKE_CONFIGURATION_TYPES="Debug"
+cmake .. -DUSE_CUDA=ON -DCMAKE_CONFIGURATION_TYPES="Debug" -DGTEST_ROOT=../gtest/
 make -j4
 cd ..
 cd python-package/
