@@ -17,9 +17,10 @@ if [ "$2" != "" ]; then
         git checkout $2
 fi
 sh ../build_gtest.sh
+sh ../get_nccl.sh
 #cmake
 mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON -DGTEST_ROOT=$PWD/../gtest
+cmake .. -DUSE_CUDA=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON -DGTEST_ROOT=$PWD/../gtest  -DUSE_NCCL=ON -DNCCL_ROOT=$PWD/../nccl
 make -j4
 cd ..
 cd python-package/
