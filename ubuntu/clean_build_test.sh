@@ -1,5 +1,6 @@
 set -e
 rm -rf xgboost
+
 #Repo
 branch="master"
 if [ "$2" != "" ]; then
@@ -7,7 +8,7 @@ if [ "$2" != "" ]; then
 fi
 
 if [ "$1" != "" ]; then
-        git clone -b $branch $1 --recursive
+        git clone $1 --recursive
 else
         git clone https://github.com/RAMitchell/xgboost.git --recursive
 fi
@@ -16,15 +17,15 @@ cd xgboost
 if [ "$2" != "" ]; then
         git checkout $2
 fi
-sh ../build_gtest.sh
-sh ../get_nccl.sh
+git submodule update --recursive
 #cmake
 mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_AVX=ON -DGOOGLE_TEST=ON -DGTEST_ROOT=$PWD/../gtest  -DUSE_NCCL=ON -DNCCL_ROOT=$PWD/../nccl
-make -j4
+cmake .. -DUSE_CUDA=ON  -DGOOGLE_TEST=ON -DUSE_DMLC_GTEST=ON  -DUSE_NCCL=ON -DNCCL_ROOT=$PWD/../../nccl/build
+make -j
 cd ..
-cd python-package/
-python setup.py install
-cd ..
-python -m nose tests/python-gpu
+pytest -v -s --fulltrace -m "(not slow)" tests/python-gpu
+cd build
 testxgboost
+cd ..
+cd tests/distributed
+./runtests-gpu.sh
